@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.duing.mapper.GoodsMapper">
+    <select id="getGoods" resultType="com.duing.model.Goods">
+        select id,goods_id,goods_name,goods_type,price,img_path
+        from goods
+    </select>
+
+    <!--Goods getGoodsById(String goodsId);-->
+    <!--驼峰 和 下划线的使用方式  需要明确-->
+    <!--驼峰：  代码的编写规范-->
+    <!--下划线：  数据库定义的规范-->
+    <!--generator  为了满足两种规范  额外使用了 ResultMap进行映射-->
+
+    <!--#{} 表达式  拼装sql   用#{goodsId}才能拿到-->
+    <!--where goods_id = #{goods_id}-->
+    <!--where goodsId = #{goodsId}-->
+
+    <select id="getGoodsById" resultType="com.duing.model.Goods">
+        select id,goods_id,goods_name,goods_type,price,img_path
+        from goods
+        where goods_id = #{goodsId}
+    </select>
+
+    <resultMap id="goodsResult" type="com.duing.model.Goods">
+        <id property="id" column="id"/>
+        <result property="goods_id" column="goods_id"/>
+        <result property="goods_name" column="goods_name"/>
+        <result property="goods_type" column="goods_type"/>
+        <result property="price" column="price"/>
+        <result property="img_path" column="img_path"/>
+        <association property="seckillGoods" javaType="com.duing.model.SeckillGoods">
+            <result property="seckill_price" column="seckill_price"/>
+            <result property="stock_num" column="stock_num"/>
+        </association>
+    </resultMap>
+
+
+    <select id="selectGoods" resultMap="goodsResult">
+      SELECT a.`goods_id`,a.`goods_name`,a.`goods_type`,a.`price`,a.`img_path`,
+             b.`seckill_price`,b.`stock_num`
+      FROM goods AS a
+      LEFT JOIN seckill_goods AS b
+      ON a.`goods_id` = b.`goods_id`
+    </select>
+
+</mapper>

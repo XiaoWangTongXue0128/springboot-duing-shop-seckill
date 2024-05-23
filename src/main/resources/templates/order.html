@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>订单详情</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/detail.css}"/>
+
+</head>
+<body>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">秒杀订单详情</div>
+    <table class="table">
+        <tr>
+            <td>商品名称</td>
+            <td th:text="${orderVo.goodsName}" colspan="3"></td>
+        </tr>
+        <tr>
+            <td>商品图片</td>
+            <td colspan="2"><img th:src="@{${orderVo.imgPath}}" width="200" height="200" /></td>
+        </tr>
+        <tr>
+            <td>订单价格</td>
+            <td colspan="2" th:text="${orderVo.price}"></td>
+        </tr>
+        <tr>
+            <td>下单时间</td>
+            <td th:text="${#dates.format(orderVo.createTime, 'yyyy-MM-dd HH:mm:ss')}" colspan="2"></td>
+        </tr>
+        <tr>
+            <td>订单状态</td>
+            <td >
+                <span th:if="${orderVo.status eq 0}">未支付</span>
+                <span th:if="${orderVo.status eq 1}">待发货</span>
+                <span th:if="${orderVo.status eq 2}">已发货</span>
+                <span th:if="${orderVo.status eq 3}">已收货</span>
+                <span th:if="${orderVo.status eq 4}">已退款</span>
+                <span th:if="${orderVo.status eq 5}">已完成</span>
+            </td>
+            <td>
+                <button class="btn btn-primary btn-block" type="submit" id="payButton">立即支付</button>
+            </td>
+        </tr>
+        <tr>
+            <td>收货人</td>
+            <td colspan="2" >渡一教育  400-678-6077</td>
+        </tr>
+        <tr>
+            <td>收货地址</td>
+            <td colspan="2">黑龙江哈尔滨南岗区金爵万象-三期-3号楼1610室</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
